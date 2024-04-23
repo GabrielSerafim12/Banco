@@ -1,81 +1,103 @@
+let nomeUsuario = prompt("Digite seu nome:");//Nome do usuario
+alert(`Olá ${nomeUsuario}, é um prazer ter você por aqui!`);
 
-// let/nomeUsuario e uma variavel enquanto o prompt pede pro usurario digitar um nome
+let saldo = 1000; // saldo inicial fictício
+let senha = '3589'; // senha fictícia
 
-let nomeUsuario = prompt("Digite seu login:");
-let senhaUsuario = prompt("Digite sua senha:");
-
-const opcao = parseInt(prompt(`
-    1. Saldo
-    2. Extrato
-    3. Saque
-    4. Depósito
-    5. Transferência
-    6. Sair
-`));
-
-console.log(opcao);
-
-// console.log vai exibir uma mensagem de boas-vindas,
-
-//(${nomeUsuario}, e uma interpolação de string que coloca um valor da variavel nomeUsuario)
-//(interpolação) é uma intercalação de palavras ou frases em um texto,
-//e um metodo que permite construir um novo conjunto de dados, apartir de um conjunto de dados conhecido
-
-
-
-// duas variaveis saldo, senha e login
-
-let saldo = 1000; // saldo inicial
-let senha = 5698; // senha
-let login = 'rafa'
-
-//função inicio vai ter uma variavel chamada opcao
-//essa função vai ter um (parseInt) essa função converte um string(letras, números e/ou símbolos)
-//em numeros inteiros, 
-
-/* function inicio() {
+// função que cria opções para o cliente
+function inicio() {
     let opcao = parseInt(prompt(`\nEscolha uma opção:
     1. Saldo
     2. Extrato
     3. Saque
     4. Depósito
     5. Transferência
-    6. Sair`)); */
+    6. Sair`));
 
-const saldoUsuario = ()=> {
-    alert(`Olá ${nomeUsuario}, seu saldo = ${saldo}`)
+    // switch e responsavel por gerar diferentes blocos de codigo com base no valor das variaveis
+    switch (opcao) {
+        case 1:
+            saldoUsuario();
+            break;
+        case 2:
+            extratoUsuario();
+            break;
+        case 3:
+            sacar();
+            break;
+        case 4:
+            depositar();
+            break;
+        case 5:
+            transferir();
+            break;
+        case 6:
+            console.log(`\n${nomeUsuario}, foi um prazer ter você por aqui!`); //isso gera uma mensagem de até logo
+            return;
+        default:
+            erro();
+            break;
+    }
+
+    inicio();
 }
 
-const erro = ()=> {
-    alert("erro")
+function saldoUsuario() {
+    let senhaDigitada = prompt("Digite sua senha:");
+    if (senhaDigitada === senha) {
+        alert(`\nSeu saldo é de R$ ${saldo.toFixed(2)}.`);
+    } else {
+        alert("Senha incorreta. Tente novamente.");
+        saldoUsuario();
+    }
 }
 
-// switch recebe a variavel(opcao) o switch e usado quando você tem varios valores
-// possíveis e deseja abrir diferentes blocos de código com base nesses valores
-// daria pra fazer com if e else, mas dificultaria a leitura do codigo
-
-switch (opcao) {
-    case 1:
-    saldoUsuario();
-        break;
-    case 2:
-    extratoUsuario();
-        break;
-    case 3:
-    sacar();
-        break;
-    case 4:
-    depositar();
-        break;
-    case 5:
-    transferir();
-        break;
-    case 6:
-        console.log(`\n${nomeUsuario}, foi um prazer ter você por aqui!`);
-        break;
-    default:
-        erro(); 
-         break;
+function extratoUsuario() {
+    // Simula um extrato com algumas transações fictícias
+    let extrato = ["Depósito de R$ 500.00", "Saque de R$ 200.00"];
+    alert("\nExtrato:");
+    extrato.forEach(transacao => {
+        alert(transacao);
+    });
 }
 
-    
+function sacar() {
+    let valor = parseFloat(prompt("Digite o valor a sacar:"));
+    if (valor <= 0) {
+        alert("Operação não autorizada. Valor inválido.");
+    } else if (valor > saldo) {
+        alert("Operação não autorizada. Saldo insuficiente.");
+    } else {
+        saldo -= valor;
+        alert(`\nSaque de R$ ${valor.toFixed(2)} realizado com sucesso.`);
+    }
+}
+
+function depositar() {
+    let valor = parseFloat(prompt("Digite o valor a depositar:"));
+    if (valor <= 0) {
+        alert("Operação não autorizada. Valor inválido.");
+    } else {
+        saldo += valor;
+        alert(`\nDepósito de R$ ${valor.toFixed(2)} realizado com sucesso.`);
+    }
+}
+
+function transferir() {
+    let conta = parseInt(prompt("Digite o número da conta para transferência:"));
+    let valor = parseFloat(prompt("Digite o valor a transferir:"));
+    if (valor <= 0) {
+        alert("Operação não autorizada. Valor inválido.");
+    } else if (valor > saldo) {
+        alert("Operação não autorizada. Saldo insuficiente.");
+    } else {
+        saldo -= valor;
+        alert(`\nTransferência de R$ ${valor.toFixed(2)} para a conta ${conta} realizada com sucesso.`);
+    }
+}
+
+function erro() {
+    alert("Opção inválida. Tente novamente.");
+}
+
+inicio();
